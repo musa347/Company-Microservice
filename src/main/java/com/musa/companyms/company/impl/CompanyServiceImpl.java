@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
 
     public CompanyServiceImpl(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
@@ -22,16 +22,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public boolean updateCompany(Company company, Long id) {
+    public void updateCompany(Company company, Long id) {
         Optional<Company> companyOptional = companyRepository.findById(id);
         if (companyOptional.isPresent()) {
             Company companyToUpdate = companyOptional.get();
             companyToUpdate.setDescription(company.getDescription());
             companyToUpdate.setName(company.getName());
             companyRepository.save(companyToUpdate);
-            return true;
         } else {
-            return false;
         }
     }
 
